@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">task</string>
+    <string name="selectDate">Дата Рождения</string>
+    <string name="actionButton">Определить</string>
+</resources>
