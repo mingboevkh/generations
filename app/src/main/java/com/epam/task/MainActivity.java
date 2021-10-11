@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setYear(int year) {
         this.year = year;
-
     }
 
     private void ActionButton() {
@@ -102,5 +101,4 @@ public class MainActivity extends AppCompatActivity {
             textViewOutput.setVisibility(View.VISIBLE);
         }
     }
-
 }
