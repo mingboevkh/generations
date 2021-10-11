@@ -59,19 +59,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void ActionButton() {
         actionButton.setOnClickListener(v -> {
-            if(checkIsPassed()) showGeneration();
+            if (checkIsPassed()) showGeneration();
         });
     }
 
     private boolean checkIsPassed(){
         if (!dataSelected) {
-            //Toast.makeText(MainActivity.this, "Необходимо выбрать дату рождения", Toast.LENGTH_SHORT).show();
             StyleableToast.makeText(MainActivity.this, "Необходимо выбрать дату рождения", Toast.LENGTH_LONG, R.style.blacktoast).show();
-
             return false;
         }
         if (year < 1946 || year > 2012) {
-            //Toast.makeText(MainActivity.this, "Укажите год рождения в промежутке от 1946-2012 года", Toast.LENGTH_SHORT).show();
             StyleableToast.makeText(MainActivity.this, "Укажите год рождения в этом временном промежутке 1946 - 2012 г", Toast.LENGTH_LONG, R.style.blacktoast).show();
             return false;
         }
@@ -98,11 +95,12 @@ public class MainActivity extends AppCompatActivity {
     private void loadOutput() {
         prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         output = prefs.getString("output","nodata");
-        if(output.equals("nodata")){
+        if (output.equals("nodata")) {
             textViewOutput.setVisibility(View.INVISIBLE);
         } else {
             textViewOutput.setText(output);
             textViewOutput.setVisibility(View.VISIBLE);
         }
     }
+
 }
