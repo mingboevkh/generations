@@ -9,13 +9,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.Calendar;
 import java.util.Objects;
 
 import io.github.muddz.styleabletoast.StyleableToast;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String SHARED_PREFS="sharedPrefs";
+    public static final String SHARED_PREFS = "sharedPrefs";
     private Button datePickerButton;
     private Button actionButton;
     private TextView textViewOutput;
@@ -23,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     private int year;
     private String output;
     private boolean dataSelected = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             int day = calendar.get(Calendar.DATE);
             DatePickerDialog datePickerDialog = new DatePickerDialog
                     (MainActivity.this, android.R.style.Theme_Material_Dialog,
-                            (view, yearSelected, monthSelected, dayOfMonth) -> setYear(yearSelected),year,month,day);
+                            (view, yearSelected, monthSelected, dayOfMonth) -> setYear(yearSelected), year, month, day);
             datePickerDialog.show();
         });
     }
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private boolean checkIsPassed(){
+    private boolean checkIsPassed() {
         if (!dataSelected) {
             StyleableToast.makeText(MainActivity.this, "Необходимо выбрать дату рождения", Toast.LENGTH_LONG, R.style.blacktoast).show();
             return false;
@@ -82,19 +82,19 @@ public class MainActivity extends AppCompatActivity {
 
         if (year >= 1981 && year <= 1996) output = "поколение Y";
 
-        if (year >= 1997 && year <= 2012) output ="поколение Z";
+        if (year >= 1997 && year <= 2012) output = "поколение Z";
 
         textViewOutput.setText(output);
         textViewOutput.setVisibility(View.VISIBLE);
         prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("output",output);
+        editor.putString("output", output);
         editor.apply();
     }
 
     private void loadOutput() {
         prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        output = prefs.getString("output","nodata");
+        output = prefs.getString("output", "nodata");
         if (output.equals("nodata")) {
             textViewOutput.setVisibility(View.INVISIBLE);
         } else {
