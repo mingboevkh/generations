@@ -21,18 +21,20 @@ public class MainActivity extends AppCompatActivity {
     private Button actionButton;
     private TextView textViewOutput;
     private SharedPreferences prefs;
-    private int year;
+    private int year, month, day;
     private String output;
-    private boolean dataSelected = false;
+    private boolean dataPicking = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_main);
         textViewOutput = findViewById(R.id.textViewOutput);
         datePickerButton = findViewById(R.id.datePickerButton);
         actionButton = findViewById(R.id.actionButton);
+        loadDates();
         loadOutput();
         initDatePicker();
         ActionButton();
@@ -40,20 +42,22 @@ public class MainActivity extends AppCompatActivity {
 
     private void initDatePicker() {
         datePickerButton.setOnClickListener(v -> {
-            dataSelected = true;
-            final Calendar calendar = Calendar.getInstance();
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DATE);
+            dataPicking = true;
             DatePickerDialog datePickerDialog = new DatePickerDialog
                     (MainActivity.this, android.R.style.Theme_Material_Dialog,
-                            (view, yearSelected, monthSelected, dayOfMonth) -> setYear(yearSelected), year, month, day);
+                            (view, yearSelected, monthSelected, daySelected) -> {
+                                year = yearSelected;
+                                month = monthSelected;
+                                day = daySelected;
+                            }, year, month, day);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("year", year);
+            editor.putInt("month", month);
+            editor.putInt("day", day);
+            editor.apply();
             datePickerDialog.show();
+            datePickerDialog.updateDate(year, month, day);
         });
-    }
-
-    private void setYear(int year) {
-        this.year = year;
     }
 
     private void ActionButton() {
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean checkIsPassed() {
-        if (!dataSelected) {
+        if (!dataPicking) {
             StyleableToast.makeText(MainActivity.this, "Необходимо выбрать дату рождения", Toast.LENGTH_LONG, R.style.blacktoast).show();
             return false;
         }
@@ -85,14 +89,19 @@ public class MainActivity extends AppCompatActivity {
 
         textViewOutput.setText(output);
         textViewOutput.setVisibility(View.VISIBLE);
-        prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("output", output);
         editor.apply();
     }
 
+    private void loadDates() {
+        final Calendar calendar = Calendar.getInstance();
+        year = prefs.getInt("year", calendar.get(Calendar.YEAR));
+        month = prefs.getInt("month", calendar.get(Calendar.MONTH));
+        day = prefs.getInt("day",calendar.get(Calendar.DATE));
+    }
+
     private void loadOutput() {
-        prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         output = prefs.getString("output", "nodata");
         if (output.equals("nodata")) {
             textViewOutput.setVisibility(View.INVISIBLE);
