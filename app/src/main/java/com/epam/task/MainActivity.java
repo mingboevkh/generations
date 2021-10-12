@@ -28,16 +28,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_main);
         textViewOutput = findViewById(R.id.textViewOutput);
         datePickerButton = findViewById(R.id.datePickerButton);
         actionButton = findViewById(R.id.actionButton);
+        prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         loadDates();
         loadOutput();
         initDatePicker();
-        ActionButton();
+        actionButton();
     }
 
     private void initDatePicker() {
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void ActionButton() {
+    private void actionButton() {
         actionButton.setOnClickListener(v -> {
             if (checkIsPassed()) showGeneration();
         });
