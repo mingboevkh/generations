@@ -16,7 +16,7 @@ import java.util.Objects;
 import io.github.muddz.styleabletoast.StyleableToast;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String SHARED_PREFS = "sharedPrefs";
+    private final String SHARED_PREFS = "sharedPrefs";
     private Button datePickerButton;
     private Button actionButton;
     private TextView textViewOutput;
